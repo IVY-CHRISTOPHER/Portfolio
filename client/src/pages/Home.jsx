@@ -14,7 +14,7 @@ function Home(props) {
     const navigate = useNavigate();
 
     const getData = async () => {
-        await axios.get('http://localhost:5000/api/projects')
+        await axios.get('http://Portfolio-Backend:5000/api/projects')
             .then((res) => {
                 setProjects(res.data);
                 console.log(res.data)

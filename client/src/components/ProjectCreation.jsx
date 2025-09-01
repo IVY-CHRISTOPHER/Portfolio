@@ -23,7 +23,7 @@ const ProjectCreation = (props) => {
     const submitHandler = (e) => {
         e.preventDefault()
         console.log("FE Form - ", form)
-        axios.post('http://localhost:5000/api/projects', form, {withCredentials: true})
+        axios.post('http://Portfolio-Backend:5000/api/projects', form, {withCredentials: true})
             .then((res) => {
                 console.log(res)
                 navigate('/')
