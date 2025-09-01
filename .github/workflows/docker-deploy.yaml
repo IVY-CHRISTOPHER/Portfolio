@@ -26,36 +26,36 @@ jobs:
       - name: configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with: 
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-2
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
 
       - name: Log in to Amazon ECR
-        id: login-ECR
+        id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build and Push Docker Compose Images
         run: |
-          FRONTEND_REPO="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/my-frontend"
-          BACKEND_REPO="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/my-backend"
+          FRONTEND_REPO="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/portfolio-frontend"
+          BACKEND_REPO="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/portfolio-backend"
 
-          docker build -t my-frontend:latest ./client
-          docker tag my-frontend:latest $FRONTEND_REPO:latest
+          docker build -t portfolio-frontend:latest ./client
+          docker tag portfolio-frontend:latest $FRONTEND_REPO:latest
           docker push $FRONTEND_REPO:latest
 
-          docker build -t my-backend:latest ./server
-          docker tag my-backend:latest $BACKEND_REPO:latest
+          docker build -t portfolio-backend:latest ./server
+          docker tag portfolio-backend:latest $BACKEND_REPO:latest
           docker push $BACKEND_REPO:latest
 
       - name: Force new ECS deployment
         run: |
           aws ecs update-service \
-            --cluster Portfolio-Site-Cluster
+            --cluster Portfolio-Site-Cluster \
             --service portfolio-frontend-service \
             --force-new-deployment
 
           aws ecs update-service \
-            --cluster Portfolio-Site-Cluster
+            --cluster Portfolio-Site-Cluster \
             --service portfolio-backend-service \
             --force-new-deployment
         env:
