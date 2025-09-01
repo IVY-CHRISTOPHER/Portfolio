@@ -10,4 +10,5 @@ mongoose
     .then(() => console.log(`Docker DB Connected`))
     .catch((err) =>
         console.log(`Something went wrong when connecting to Docker DB`, err)
-    );
+);
+    

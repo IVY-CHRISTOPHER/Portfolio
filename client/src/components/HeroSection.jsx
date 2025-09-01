@@ -5,7 +5,7 @@ const nav = useNavigate
 function HeroSection() {
 
     function handleHiring() {
-        alert("It Works!!")
+        alert("You're Hired!!")
     }
 
     return (
