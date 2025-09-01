@@ -18,9 +18,9 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Build Docker Image
-        run: docker build -t ghcr.io/IVY-CHRISTOPHER/portfolio-site:latest .
+        run: docker build -t ghcr.io/ivy-christopher/portfolio-site:latest .
 
       - name: Push Docker Image
-        run: docker push ghcr.io/IVY-CHRISTOPHER/portfolio-site:latest
+        run: docker push ghcr.io/ivy-christopher/portfolio-site:latest
