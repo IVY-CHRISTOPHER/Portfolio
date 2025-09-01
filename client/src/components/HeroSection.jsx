@@ -1,10 +1,11 @@
-
+import useNavigate from ('react-router-dom')
+const nav = useNavigate
 
 
 function HeroSection() {
 
     function handleHiring() {
-        alert("Your Hired!!")
+        alert("It Works!!")
     }
 
     return (
