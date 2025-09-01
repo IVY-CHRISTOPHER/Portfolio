@@ -15,6 +15,16 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
+      
+      - name: configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with: aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-2
+
+      - name: Log in to Amazon ECR
+        id: login-ECR
+        uses: aws-actions/amazon-ecr-login@v2
 
       - name: Log in to Github Container Registry
         uses: docker/login-action@v2
@@ -25,8 +35,28 @@ jobs:
 
       - name: Build and Push Docker Compose Images
         run: |
-          docker compose -f compose.yaml build
-          docker compose -f compose.yaml push
+          FRONTEND_REPO="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/my-frontend"
+          BACKEND_REPO="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/my-backend"
+
+          docker build -t my-frontend:latest ./client
+          docker tag my-frontend:latest $FRONTEND_REPO:latest
+          docker push $FRONTEND_REPO:latest
+
+          docker build -t my-backend:latest ./server
+          docker tag my-backend:latest $BACKEND_REPO:latest
+          docker push $BACKEND_REPO:latest
+
+      - name: Force new ECS deployment
+        run: |
+          aws ecs update-service \
+            --cluster Portfolio-Site-Cluster
+            --service portfolio-frontend-service \
+            --force-new-deployment
+
+          aws ecs update-service \
+            --cluster Portfolio-Site-Cluster
+            --service portfolio-backend-service \
+            --force-new-deployment
         env:
           MONGO_USER: ${{ secrets.MONGO_USER }}
           MONGO_PASS: ${{ secrets.MONGO_PASS }}
