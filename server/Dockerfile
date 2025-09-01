@@ -7,6 +7,9 @@ WORKDIR /server
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
+# Copy AWS CA
+COPY global-bundle.pem /server/global-bundle.pem
+
 # Install dependencies
 RUN npm install
 
