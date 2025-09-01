@@ -17,6 +17,4 @@ COPY . .
 EXPOSE 5000
 
 # Start the server
-RUN npm install -g nodemon
-CMD ["nodemon", "server.js"]
-
+CMD ["node", "server.js"]

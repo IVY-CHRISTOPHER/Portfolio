@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.879.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
@@ -8,3 +9,5 @@
     "validator": "^13.15.15"
   }
 }
+
+

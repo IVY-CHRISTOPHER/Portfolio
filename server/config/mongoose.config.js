@@ -1,14 +1,16 @@
 const mongoose = require("mongoose");
-// const dotenv = require('dotenv');
-// const path = require('path')
+const dotenv = require("dotenv")
 
-// dotenv.config()
-// const uri = process.env.MONGO_DB
+dotenv.config()
 
-mongoose
-    .connect('mongodb://Chris:1234@mongodb:27017/mydatabase?authSource=admin')
-    .then(() => console.log(`Docker DB Connected`))
+
+//Connect to DB
+mongoose.connect
+    ("mongodb://PortfolioDBMaster:DemonJoker12!@portfolio-site-db.cluster-ctg8g4swosxc.us-east-2.docdb.amazonaws.com:27017/?tls=true&tlsCAFile=global-bundle.pem&replicaSet=rs0&readPreference=secondaryPreferred&retryWrites=false")
+    .then(() => console.log(`AWS DB Connected`))
     .catch((err) =>
-        console.log(`Something went wrong when connecting to Docker DB`, err)
-);
-    
+        console.log(`Something went wrong when connecting to AWS DB`, err),
+        function (client) {
+            //Specify the database to be used
+            db = client.db('portfolio-site-db')
+        });
