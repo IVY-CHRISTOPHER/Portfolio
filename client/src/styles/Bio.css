@@ -1,0 +1,11 @@
+.bio-main {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+}
+
+
+.bio-main {
+    width: 50%;
+
+}
